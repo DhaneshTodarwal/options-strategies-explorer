@@ -19,27 +19,27 @@
             --bg-color: #f5f5f5;
             --card-bg: #ffffff;
             --text-color: #333333;
-            --all-strategies-color: #d3d3d3; /* Light gray for "All Strategies" button */
+            --header-color: #212121;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             padding: 20px;
         }
-        
+
         #app {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -49,62 +49,94 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
         .search-input {
             width: 100%;
             padding: 12px 20px;
             border: 2px solid #ddd;
             border-radius: 25px;
             font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
         }
-        
+
+        .search-input:focus {
+            border-color: #666;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
         .categories-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            margin: 20px 0;
+            margin-bottom: 30px;
         }
-        
+
         .category-btn {
             padding: 10px 20px;
             border: none;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            color: white;
+            transition: all 0.3s;
             flex: 1;
             min-width: 120px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        
-        .all-strategies {
-            background-color: var(--all-strategies-color);
-            color: black; /* Ensure text is visible */
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        
+
+        .category-btn.active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
         .bullish { background-color: var(--bullish-color); }
         .bearish { background-color: var(--bearish-color); }
         .neutral { background-color: var(--neutral-color); }
         .volatility { background-color: var(--volatility-color); }
         .advanced { background-color: var(--advanced-color); }
         .management { background-color: var(--management-color); }
-        
+        .all-strategies { background-color: #777; } /* Style for "All Strategies" button */
+
+
         .strategies-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
         }
-        
+
         .strategy-card {
             background-color: var(--card-bg);
             border-radius: 10px;
+            overflow: hidden;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+        }
+
         .strategy-header {
             padding: 15px 20px;
             cursor: pointer;
@@ -113,77 +145,130 @@
             align-items: center;
             border-left: 5px solid;
         }
-        
+
         .bullish-header { border-left-color: var(--bullish-color); }
         .bearish-header { border-left-color: var(--bearish-color); }
         .neutral-header { border-left-color: var(--neutral-color); }
         .volatility-header { border-left-color: var(--volatility-color); }
         .advanced-header { border-left-color: var(--advanced-color); }
         .management-header { border-left-color: var(--management-color); }
-        
+
         .strategy-title {
             font-weight: bold;
             font-size: 1.2em;
         }
-        
+
         .strategy-content {
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease, padding 0.5s ease;
         }
-        
+
         .strategy-content.expanded {
             max-height: 1000px;
             padding: 20px;
         }
-        
+
         .strategy-description {
             margin-bottom: 15px;
             line-height: 1.6;
         }
-        
+
         .strategy-details {
             background-color: rgba(0, 0, 0, 0.04);
             border-radius: 8px;
             padding: 15px;
             margin: 10px 0;
         }
-        
+
         .detail-item {
             margin-bottom: 10px;
         }
-        
+
         .detail-title {
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+        }
+
+        .tag.risk-low { background-color: #e8f5e9; }
+        .tag.risk-medium { background-color: #fff3e0; }
+        .tag.risk-high { background-color: #ffebee; }
+        .tag.complexity-beginner { background-color: #e0f7fa; }
+        .tag.complexity-intermediate { background-color: #f8bbd0; }
+        .tag.complexity-advanced { background-color: #ede7f6; }
+
+
         .payoff-diagram {
             margin: 15px 0;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
             text-align: center;
         }
-        
-        .payoff-diagram img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        
+
         .no-results {
             text-align: center;
             padding: 40px;
             font-size: 1.2em;
             color: #888;
         }
+
+        .payoff-diagram-image { /* Style for payoff diagram images */
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .payoff-link { /* Style for the payoff diagram link/button */
+            display: block;
+            margin-top: 10px;
+            color: var(--neutral-color);
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .payoff-link:hover {
+            text-decoration: underline;
+        }
+
+        .learn-more-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+
+        @media (max-width: 768px) {
+            .strategies-container {
+                grid-template-columns: 1fr;
+            }
+
+            .category-btn {
+                flex: 0 0 calc(50% - 10px);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="app"></div>
-    
+
     <script type="text/babel">
         const strategiesData = [
+            // Bullish Strategies
             {
                 name: "Long Call",
                 category: "bullish",
@@ -195,7 +280,15 @@
                     breakeven: "Strike price plus premium paid.",
                     idealFor: "Strong bullish outlook with expectation of significant upward movement."
                 },
-                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-long-call.png"
+                risk: "low",
+                tags: ["directional", "limited-risk", "leverage"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/long-call.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a stock's price to increase significantly.",
+                pros: ["Simple to understand", "Limited risk", "Unlimited profit potential"],
+                cons: ["Time decay erodes value", "Need significant price movement to profit"],
+                complexity: "beginner",
+                exampleScenario: "You believe Tesla (TSLA) stock will rise after an upcoming product announcement.",
+                learnMoreLink: "https://www.example.com/long-call-strategy" // Placeholder - Replace with actual link
             },
             {
                 name: "Bull Call Spread",
@@ -208,42 +301,596 @@
                     breakeven: "Lower strike price plus net premium paid.",
                     idealFor: "Moderate bullish outlook with reduced cost compared to long call."
                 },
-                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-bull-call-spread.png"
+                risk: "low",
+                tags: ["vertical-spread", "defined-risk", "cost-reduction"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/bull-call-spread.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a stock price to moderately increase.",
+                pros: ["Lower cost than long call", "Defined risk and reward"],
+                cons: ["Limited profit potential", "Still requires correct directional assumption"],
+                complexity: "intermediate",
+                exampleScenario: "You anticipate a steady rise in Apple (AAPL) stock over the next month.",
+                learnMoreLink: "https://www.example.com/bull-call-spread" // Placeholder - Replace with actual link
             },
+            {
+                name: "Bull Put Spread",
+                category: "bullish",
+                description: "A vertical spread strategy created by selling a put option and buying another put option at a lower strike price.",
+                details: {
+                    setup: "Sell a higher strike put and buy a lower strike put with the same expiration.",
+                    maxProfit: "Net premium received for the spread.",
+                    maxLoss: "Difference between strike prices minus net premium received.",
+                    breakeven: "Higher strike price minus net premium received.",
+                    idealFor: "Moderate bullish outlook with an intention to collect premium."
+                },
+                risk: "medium",
+                tags: ["vertical-spread", "credit-spread", "defined-risk"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/bull-put-spread.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you believe a stock price will stay flat or rise slightly.",
+                pros: ["Collect premium upfront", "Defined risk"],
+                cons: ["Limited profit potential", "Requires margin"],
+                complexity: "intermediate",
+                exampleScenario: "You believe Amazon (AMZN) stock will not fall below a certain price level.",
+                learnMoreLink: "https://www.example.com/bull-put-spread" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Covered Call",
+                category: "bullish",
+                description: "A strategy where an investor holds a long position in an asset and sells call options on that same asset.",
+                details: {
+                    setup: "Own 100 shares of stock and sell a call option for every 100 shares owned.",
+                    maxProfit: "Premium received plus potential stock appreciation up to strike price.",
+                    maxLoss: "Stock value can decline significantly, offset partially by premium received.",
+                    breakeven: "Stock purchase price minus premium received.",
+                    idealFor: "Slightly bullish to neutral outlook, income generation from existing positions."
+                },
+                risk: "medium",
+                tags: ["income", "stock-ownership", "reduced-cost-basis"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/covered-call.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you are neutral to slightly bullish on a stock you own and want to generate income.",
+                pros: ["Generates income", "Reduces cost basis of stock"],
+                cons: ["Caps upside potential", "Stock downside risk remains"],
+                complexity: "beginner",
+                exampleScenario: "You own 100 shares of Microsoft (MSFT) and want to earn income while expecting a modest price increase.",
+                learnMoreLink: "https://www.example.com/covered-call-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Synthetic Long",
+                category: "bullish",
+                description: "A strategy that simulates owning stock by buying a call and selling a put at the same strike price.",
+                details: {
+                    setup: "Buy a call option and sell a put option at the same strike price and expiration.",
+                    maxProfit: "Unlimited as stock price rises above strike plus net premium.",
+                    maxLoss: "Substantial if stock price falls significantly (similar to stock ownership).",
+                    breakeven: "Strike price plus net premium paid (or minus net credit received).",
+                    idealFor: "Strong bullish outlook with desire for stock-like exposure with less capital."
+                },
+                risk: "high",
+                tags: ["synthetic", "leverage", "unlimited-risk"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/SyntheticLongStock.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "As a substitute for buying stock, when strongly bullish but want leverage.",
+                pros: ["Stock-like exposure with less capital", "Leverage"],
+                cons: ["Unlimited downside risk (like stock)", "Requires margin"],
+                complexity: "intermediate",
+                exampleScenario: "You want to mimic owning Google (GOOGL) stock but with less upfront investment.",
+                learnMoreLink: "https://www.example.com/synthetic-long-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Risk Reversal",
+                category: "bullish",
+                description: "A leveraged bullish position involving buying a call and selling a put at different strike prices.",
+                details: {
+                    setup: "Buy an out-of-the-money call and sell an out-of-the-money put with the same expiration.",
+                    maxProfit: "Unlimited as stock price rises above call strike plus net premium.",
+                    maxLoss: "Substantial if stock price falls below put strike minus net premium.",
+                    breakeven: "Varies based on net premium paid or received.",
+                    idealFor: "Strong bullish outlook with willingness to take on downside risk."
+                },
+                risk: "high",
+                tags: ["leverage", "unlimited-risk", "directional"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/RiskReversal.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When strongly bullish but willing to accept downside risk to finance the call buy.",
+                pros: ["Leveraged bullish position", "Can be set up for net credit or low cost"],
+                cons: ["Significant downside risk if bearish", "Requires margin"],
+                complexity: "advanced",
+                exampleScenario: "You are very bullish on a smaller cap stock and want to maximize upside with leverage.",
+                learnMoreLink: "https://www.example.com/risk-reversal-strategy" // Placeholder - Replace with actual link
+            },
+
+            // Bearish Strategies
             {
                 name: "Long Put",
                 category: "bearish",
-                description: "A bearish strategy that gives the holder the right to sell the underlying asset at the strike price before expiration.",
+                description: "A simple directional bet on downside, giving the holder the right to sell the underlying asset at the strike price before expiration.",
                 details: {
                     setup: "Buy a put option at a specific strike price and expiration date.",
-                    maxProfit: "Substantial, limited by the stock price dropping to zero.",
+                    maxProfit: "Strike price minus premium paid (capped at strike price as stock cannot go below zero).",
                     maxLoss: "Limited to the premium paid for the option.",
                     breakeven: "Strike price minus premium paid.",
-                    idealFor: "Strong bearish outlook expecting a significant price drop."
+                    idealFor: "Strong bearish outlook with expectation of significant downward movement."
                 },
-                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-long-put.png"
+                risk: "low",
+                tags: ["directional", "limited-risk", "hedge"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/long-put.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a stock price to decrease significantly.",
+                pros: ["Simple to understand", "Limited risk", "Defined maximum loss"],
+                cons: ["Time decay erodes value", "Need significant price decrease to profit"],
+                complexity: "beginner",
+                exampleScenario: "You believe Netflix (NFLX) stock will fall after disappointing subscriber growth.",
+                learnMoreLink: "https://www.example.com/long-put-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Bear Put Spread",
+                category: "bearish",
+                description: "A vertical spread strategy created by buying a put option and simultaneously selling another put option with a lower strike price.",
+                details: {
+                    setup: "Buy a higher strike put and sell a lower strike put with the same expiration.",
+                    maxProfit: "Difference between strike prices minus net premium paid.",
+                    maxLoss: "Limited to the net premium paid for the spread.",
+                    breakeven: "Higher strike price minus net premium paid.",
+                    idealFor: "Moderate bearish outlook with reduced cost compared to long put."
+                },
+                risk: "low",
+                tags: ["vertical-spread", "defined-risk", "cost-reduction"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/bear-put-spread.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a stock price to moderately decrease.",
+                pros: ["Lower cost than long put", "Defined risk and reward"],
+                cons: ["Limited profit potential", "Still requires correct directional assumption"],
+                complexity: "intermediate",
+                exampleScenario: "You anticipate a gradual decline in Meta (META) stock due to market headwinds.",
+                learnMoreLink: "https://www.example.com/bear-put-spread" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Bear Call Spread",
+                category: "bearish",
+                description: "A vertical spread strategy created by selling a call option and buying another call option at a higher strike price.",
+                details: {
+                    setup: "Sell a lower strike call and buy a higher strike call with the same expiration.",
+                    maxProfit: "Net premium received for the spread.",
+                    maxLoss: "Difference between strike prices minus net premium received.",
+                    breakeven: "Lower strike price plus net premium received.",
+                    idealFor: "Moderate bearish outlook with an intention to collect premium."
+                },
+                risk: "medium",
+                tags: ["vertical-spread", "credit-spread", "defined-risk"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/bear-call-spread.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you believe a stock price will stay flat or decrease slightly.",
+                pros: ["Collect premium upfront", "Defined risk"],
+                cons: ["Limited profit potential", "Upside risk if wrong"],
+                complexity: "intermediate",
+                exampleScenario: "You believe Intel (INTC) stock's price is unlikely to rise significantly.",
+                learnMoreLink: "https://www.example.com/bear-call-spread" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Synthetic Short",
+                category: "bearish",
+                description: "A strategy that simulates shorting stock by buying a put and selling a call at the same strike price.",
+                details: {
+                    setup: "Buy a put option and sell a call option at the same strike price and expiration.",
+                    maxProfit: "Strike price minus net premium paid (capped at strike as stock cannot go below zero).",
+                    maxLoss: "Unlimited as stock price rises significantly above strike.",
+                    breakeven: "Strike price minus net premium paid (or plus net credit received).",
+                    idealFor: "Strong bearish outlook with desire for short-like exposure without borrowing stock."
+                },
+                risk: "high",
+                tags: ["synthetic", "unlimited-risk", "leverage"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/SyntheticShortStock.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "As a substitute for shorting stock, when strongly bearish but want leverage.",
+                pros: ["Short-stock like exposure without borrowing stock", "Leverage"],
+                cons: ["Unlimited upside risk (like short stock)", "Requires margin"],
+                complexity: "intermediate",
+                exampleScenario: "You want to mimic shorting Block (SQ) stock but without borrowing shares.",
+                learnMoreLink: "https://www.example.com/synthetic-short-strategy" // Placeholder - Replace with actual link
+            },
+
+            // Neutral Strategies
+            {
+                name: "Short Straddle",
+                category: "neutral",
+                description: "Selling both a call and put option at the same strike price and expiration, profiting from low volatility and time decay.",
+                details: {
+                    setup: "Sell an at-the-money call and put with the same strike price and expiration.",
+                    maxProfit: "Total premium received from both options.",
+                    maxLoss: "Unlimited to the upside, limited to strike minus premium on the downside.",
+                    breakeven: "Strike price plus/minus total premium received.",
+                    idealFor: "Strong neutral outlook expecting minimal price movement and decreasing volatility."
+                },
+                risk: "high",
+                tags: ["unlimited-risk", "time-decay", "volatility-contraction"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/short-straddle.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect minimal price movement and a decrease in volatility.",
+                pros: ["Maximum profit if stock stays at strike", "Profits from time decay and volatility decrease"],
+                cons: ["Unlimited risk if price moves significantly", "Requires margin"],
+                complexity: "advanced",
+                exampleScenario: "You believe Johnson & Johnson (JNJ) stock will remain stable after earnings announcement.",
+                learnMoreLink: "https://www.example.com/short-straddle-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Short Strangle",
+                category: "neutral",
+                description: "Selling an out-of-the-money call and an out-of-the-money put with the same expiration date.",
+                details: {
+                    setup: "Sell an OTM call and OTM put with the same expiration.",
+                    maxProfit: "Total premium received from both options.",
+                    maxLoss: "Unlimited to the upside, limited but substantial to the downside.",
+                    breakeven: "Call strike plus premium received or put strike minus premium received.",
+                    idealFor: "Neutral outlook with wider expected trading range than a straddle."
+                },
+                risk: "high",
+                tags: ["unlimited-risk", "time-decay", "wider-range"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/short-strangle.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect price to stay within a wider range and volatility to decrease.",
+                pros: ["Higher probability of profit than short straddle", "Profits from time decay and volatility decrease"],
+                cons: ["Unlimited upside risk, substantial downside risk", "Requires margin"],
+                complexity: "advanced",
+                exampleScenario: "You expect a broad market index like SPY to trade within a range.",
+                learnMoreLink: "https://www.example.com/short-strangle-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Iron Condor",
+                category: "neutral",
+                description: "A strategy combining a bull put spread and a bear call spread, creating a range where the trader profits if the stock stays within.",
+                details: {
+                    setup: "Sell an OTM put and buy a further OTM put; sell an OTM call and buy a further OTM call.",
+                    maxProfit: "Net premium received for the entire position.",
+                    maxLoss: "Difference between either spread's strikes minus net premium received.",
+                    breakeven: "Lower sold strike minus premium received and higher sold strike plus premium received.",
+                    idealFor: "Neutral outlook with expectation of price remaining within a specific range."
+                },
+                risk: "medium",
+                tags: ["defined-risk", "credit-spread", "range-bound"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/iron-condor.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect price to stay within a defined range and volatility to decrease.",
+                pros: ["Defined risk and reward", "Higher probability of profit than short straddle/strangle"],
+                cons: ["Limited profit potential", "Complex to set up"],
+                complexity: "advanced",
+                exampleScenario: "You believe a stock like Coca-Cola (KO) will trade in a narrow range.",
+                learnMoreLink: "https://www.example.com/iron-condor-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Iron Butterfly",
+                category: "neutral",
+                description: "A combination of a short straddle and long strangle, profiting from the stock staying close to the middle strike price.",
+                details: {
+                    setup: "Sell an ATM call and put, buy an OTM call and an OTM put.",
+                    maxProfit: "Net premium received for the position.",
+                    maxLoss: "Difference between middle and outer strikes minus net premium received.",
+                    breakeven: "Middle strike plus/minus net premium received.",
+                    idealFor: "Strong neutral outlook with expectation of price staying very close to current level."
+                },
+                risk: "medium",
+                tags: ["defined-risk", "tight-range", "credit-spread"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/iron-butterfly.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect price to stay very close to the current level and volatility to decrease.",
+                pros: ["Defined risk and reward", "Maximum profit if stock stays at middle strike"],
+                cons: ["Limited profit potential", "Requires precise neutral outlook"],
+                complexity: "advanced",
+                exampleScenario: "You expect a stable stock like Procter & Gamble (PG) to have minimal movement.",
+                learnMoreLink: "https://www.example.com/iron-butterfly-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Calendar Spread",
+                category: "neutral",
+                description: "Selling a near-term option and buying a longer-term option at the same strike price, profiting from time decay differential.",
+                details: {
+                    setup: "Buy a longer-term option and sell a shorter-term option at the same strike.",
+                    maxProfit: "Variable, highest when stock is at strike price at near-term expiration.",
+                    maxLoss: "Limited to the net premium paid for the spread.",
+                    breakeven: "Variable, depends on implied volatility after near-term expiration.",
+                    idealFor: "Neutral short-term outlook but potentially directional longer-term view."
+                },
+                risk: "medium",
+                tags: ["time-decay", "horizontal-spread", "implied-volatility"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/calendar-call-spread.png", // Placeholder URL - REPLACE THIS (Calendar Spreads can vary, this is for a call calendar spread)
+                whenToUse: "When you expect short-term sideways movement but potential longer-term direction.",
+                pros: ["Profits from time decay of short-term option", "Defined risk"],
+                cons: ["Profitability sensitive to volatility changes", "Complex to manage"],
+                complexity: "advanced",
+                exampleScenario: "You expect Disney (DIS) stock to be range-bound before a major announcement later in the year.",
+                learnMoreLink: "https://www.example.com/calendar-spread-strategy" // Placeholder - Replace with actual link
+            },
+
+            // Volatility Strategies
+            {
+                name: "Long Straddle",
+                category: "volatility",
+                description: "Buying both a call and put option at the same strike price and expiration, profiting from significant price movement in either direction.",
+                details: {
+                    setup: "Buy an at-the-money call and put with the same strike price and expiration.",
+                    maxProfit: "Unlimited to the upside, limited to strike minus total premium on the downside.",
+                    maxLoss: "Limited to the total premium paid for both options.",
+                    breakeven: "Strike price plus/minus total premium paid.",
+                    idealFor: "Expecting significant price movement but uncertain of direction, often before major announcements."
+                },
+                risk: "low",
+                tags: ["limited-risk", "volatility-expansion", "direction-agnostic"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/long-straddle.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a large price move in either direction but are unsure of the direction.",
+                pros: ["Profit from volatility increase", "Unlimited profit potential", "Defined risk"],
+                cons: ["Requires significant price movement to profit", "Double time decay"],
+                complexity: "intermediate",
+                exampleScenario: "Trading before a major economic data release or company earnings.",
+                learnMoreLink: "https://www.example.com/long-straddle-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Long Strangle",
+                category: "volatility",
+                description: "Buying an out-of-the-money call and an out-of-the-money put with the same expiration date.",
+                details: {
+                    setup: "Buy an OTM call and OTM put with the same expiration.",
+                    maxProfit: "Unlimited to the upside, limited to lower strike minus total premium on the downside.",
+                    maxLoss: "Limited to the total premium paid for both options.",
+                    breakeven: "Call strike plus premium paid or put strike minus premium paid.",
+                    idealFor: "Expecting very large price movement but uncertain of direction, cheaper than straddle."
+                },
+                risk: "low",
+                tags: ["limited-risk", "extreme-movement", "cheaper-entry"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/long-strangle.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you expect a very large price move in either direction, more extreme than for a straddle.",
+                pros: ["Cheaper than long straddle", "Profit from volatility increase", "Unlimited profit potential", "Defined risk"],
+                cons: ["Requires even larger price movement than straddle to profit", "Double time decay"],
+                complexity: "intermediate",
+                exampleScenario: "Trading before a potential black swan event or major geopolitical announcement.",
+                learnMoreLink: "https://www.example.com/long-strangle-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Ratio Spread",
+                category: "volatility",
+                description: "A strategy where you buy fewer near-the-money options and sell more out-of-the-money options, profiting from specific volatility scenarios.",
+                details: {
+                    setup: "Buy options at one strike and sell more options at a further OTM strike.",
+                    maxProfit: "Maximum at the sold strike at expiration.",
+                    maxLoss: "Can be unlimited depending on the specific ratio used.",
+                    breakeven: "Multiple break-even points depending on the specific setup.",
+                    idealFor: "Complex volatility expectations where you anticipate movement to a specific price level."
+                },
+                risk: "high",
+                tags: ["volatility-skew", "asymmetric-risk", "advanced"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/RatioCallSpread.png", // Placeholder URL - REPLACE THIS (This is for a Ratio Call Spread, Payoff varies by type)
+                whenToUse: "When you have a nuanced view on volatility and expect limited price movement but want to profit from volatility skew.",
+                pros: ["Potential for high percentage returns if price stays near sold strike", "Can be set up for net credit"],
+                cons: ["Complex payoff profile with potentially unlimited risk", "Requires precise volatility and price expectation"],
+                complexity: "advanced",
+                exampleScenario: "Trading after earnings, expecting volatility to crush but price to remain somewhat stable.",
+                learnMoreLink: "https://www.example.com/ratio-spread-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Vega Trading",
+                category: "volatility",
+                description: "Strategies specifically designed to profit from changes in implied volatility rather than price direction.",
+                details: {
+                    setup: "Various setups focusing on buying options when IV is low or selling when IV is high.",
+                    maxProfit: "Depends on specific strategy implementation.",
+                    maxLoss: "Depends on specific strategy implementation.",
+                    breakeven: "Depends on specific strategy implementation and volatility changes.",
+                    idealFor: "Trading the volatility component of options pricing, often before/after major market events."
+                },
+                risk: "medium",
+                tags: ["implied-volatility", "volatility-mean-reversion", "volatility-forecasting"],
+                payoffDiagram: "https://www.interactivebrokers.com/images/web/Education/OptionStrategyGuide/vega-trading.png", // Placeholder URL - REPLACE THIS (Generic Volatility Profile)
+                whenToUse: "When you have a view on implied volatility independent of price direction, e.g., expecting volatility to rise or fall.",
+                pros: ["Directly profit from volatility changes", "Can be directionally neutral"],
+                cons: ["Requires understanding of volatility dynamics", "Can be complex to implement and manage"],
+                complexity: "advanced",
+                exampleScenario: "Trading around events known to cause volatility spikes, like central bank announcements.",
+                learnMoreLink: "https://www.example.com/vega-trading-strategies" // Placeholder - Replace with actual link
+            },
+
+            // Advanced/Complex Strategies
+            {
+                name: "Butterfly Spread",
+                category: "advanced",
+                description: "A neutral strategy combining bull and bear spreads with a common middle strike, profiting from minimal price movement.",
+                details: {
+                    setup: "Buy 1 ITM option, sell 2 ATM options, buy 1 OTM option, all same type (calls or puts).",
+                    maxProfit: "Difference between adjacent strikes minus net premium paid, achieved at middle strike.",
+                    maxLoss: "Limited to the net premium paid.",
+                    breakeven: "Lower strike plus net premium paid and higher strike minus net premium paid.",
+                    idealFor: "Precise neutral outlook expecting price to be exactly at middle strike at expiration."
+                },
+                risk: "low",
+                tags: ["defined-risk", "precise-target", "low-cost"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/long-call-butterfly-spread.png", // Placeholder URL - REPLACE THIS (Call Butterfly)
+                whenToUse: "When you expect price to be very close to a specific strike price at expiration.",
+                pros: ["Defined risk and reward", "Low cost", "High potential percentage return if precise"],
+                cons: ["Very narrow profit zone", "Requires precise price prediction"],
+                complexity: "advanced",
+                exampleScenario: "Betting on a stock price to pin at a specific strike price on expiration day.",
+                learnMoreLink: "https://www.example.com/butterfly-spread-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Condor Spread",
+                category: "advanced",
+                description: "Similar to a butterfly but with a wider middle range of profitability, using four different strike prices.",
+                details: {
+                    setup: "Buy 1 lowest strike option, sell 1 lower-middle strike, sell 1 upper-middle strike, buy 1 highest strike.",
+                    maxProfit: "Difference between middle strikes minus net premium paid.",
+                    maxLoss: "Limited to the net premium paid.",
+                    breakeven: "Lower middle strike minus net premium paid and upper middle strike plus net premium paid.",
+                    idealFor: "Neutral outlook expecting price to remain within a specific range at expiration."
+                },
+                risk: "low",
+                tags: ["defined-risk", "range-target", "low-cost"],
+                payoffDiagram: "https://www.optionseducation.org/images/strategy/payoff/iron-condor.png", // Placeholder URL - REPLACE THIS (Payoff is similar to Iron Condor)
+                whenToUse: "When you expect price to stay within a wider defined range at expiration.",
+                pros: ["Defined risk and reward", "Wider profit zone than butterfly"],
+                cons: ["Lower maximum profit than butterfly", "Still requires price range prediction"],
+                complexity: "advanced",
+                exampleScenario: "Expecting a stock to trade within a predictable channel.",
+                learnMoreLink: "https://www.example.com/condor-spread-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Diagonal Spread",
+                category: "advanced",
+                description: "A calendar spread using different strike prices, combining time decay and directional elements.",
+                details: {
+                    setup: "Buy a longer-term option and sell a shorter-term option at different strikes.",
+                    maxProfit: "Variable, depends on price movement and time decay.",
+                    maxLoss: "Generally limited to the net premium paid.",
+                    breakeven: "Variable, depends on remaining value of long option after short expires.",
+                    idealFor: "Complex outlook with different expectations for short-term vs longer-term price action."
+                },
+                risk: "medium",
+                tags: ["time-decay", "multi-timeframe", "directional"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/DiagonalCallSpread.png", // Placeholder URL - REPLACE THIS (Diagonal Call Spread)
+                whenToUse: "When you have different short-term and long-term views on price and volatility.",
+                pros: ["Flexibility in combining directional and time decay plays", "Can be adjusted over time"],
+                cons: ["Complex to set up and manage", "Profitability is highly variable"],
+                complexity: "advanced",
+                exampleScenario: "Expecting short-term consolidation but longer-term bullish trend.",
+                learnMoreLink: "https://www.example.com/diagonal-spread-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Box Spread",
+                category: "advanced",
+                description: "Combining a bull call spread with a bear put spread to create a riskless position that functions like a loan.",
+                details: {
+                    setup: "Buy a call at lower strike, sell a call at higher strike, buy a put at higher strike, sell a put at lower strike.",
+                    maxProfit: "Difference between initial cost and spread width at expiration.",
+                    maxLoss: "None if held to expiration (ignoring execution costs and interest).",
+                    breakeven: "N/A - functions as a synthetic loan.",
+                    idealFor: "Arbitrage or creating synthetic loans/borrows at favorable rates."
+                },
+                risk: "low",
+                tags: ["arbitrage", "financing", "advanced-execution"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/BoxSpread.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "For arbitrage opportunities due to mispricing or to create synthetic financing.",
+                pros: ["Riskless profit if executed correctly (excluding fees)", "Predictable return"],
+                cons: ["Very small profit margins", "Requires precise execution", "Transaction costs can negate profit"],
+                complexity: "advanced",
+                exampleScenario: "Exploiting slight pricing discrepancies between options to lock in a risk-free return.",
+                learnMoreLink: "https://www.example.com/box-spread-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Jade Lizard",
+                category: "advanced",
+                description: "A short put plus a short call spread, designed to generate income with no upside risk.",
+                details: {
+                    setup: "Sell a put, sell a call spread (sell lower strike call, buy higher strike call).",
+                    maxProfit: "Total premium received if all options expire worthless.",
+                    maxLoss: "Put strike minus premium received (unlimited downside risk).",
+                    breakeven: "Put strike minus total premium received.",
+                    idealFor: "Neutral to slightly bullish outlook with expectation of limited upside movement."
+                },
+                risk: "medium",
+                tags: ["income", "undefined-downside", "defined-upside"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/JadeLizard.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "When you are neutral to slightly bullish and want to generate income, comfortable with downside risk.",
+                pros: ["Generates income", "Defined upside risk"],
+                cons: ["Unlimited downside risk if price falls significantly", "Complex to manage"],
+                complexity: "advanced",
+                exampleScenario: "Expecting a stock to trade sideways or slightly up, generating income while limiting upside exposure.",
+                learnMoreLink: "https://www.example.com/jade-lizard-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Zero Cost Collar",
+                category: "management",
+                description: "A risk management strategy to protect unrealized profits in a long stock position with no upfront cost by selling a call and buying a put.",
+                details: {
+                    setup: "Own 100 shares of stock, sell an OTM call, buy an OTM put using call premium.",
+                    maxProfit: "Capped at short call strike (plus net credit if any).",
+                    maxLoss: "Limited to put strike price (minus stock cost and net credit).",
+                    breakeven: "Stock purchase price (adjusted for net credit/debit).",
+                    idealFor: "Protecting stock profits cost-neutrally, limiting upside and downside."
+                },
+                risk: "medium",
+                tags: ["risk-management", "cost-neutral", "protection", "collar"],
+                payoffDiagram: "zero-cost-collar-payoff.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "To protect unrealized gains on a stock position without additional cost.",
+                pros: ["Cost-neutral risk management", "Protects downside while allowing some upside"],
+                cons: ["Caps upside potential", "Opportunity cost if stock rises significantly"],
+                complexity: "intermediate",
+                exampleScenario: "You want to lock in profits on a stock that has appreciated but are hesitant to sell entirely.",
+                learnMoreLink: "https://www.example.com/zero-cost-collar-strategy" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Poor Man's Covered Call (PMCC)",
+                category: "bullish",
+                description: "Capital-efficient covered call using a LEAP call option instead of stock for income generation.",
+                details: {
+                    setup: "Buy long-dated ITM call (LEAP), sell short-dated OTM call against it.",
+                    maxProfit: "Short call strike - Long call strike - Net Debit ( + short call premium).",
+                    maxLoss: "Net debit paid for the long call (if both expire worthless).",
+                    breakeven: "Long call strike + Net Debit.",
+                    idealFor: "Moderately bullish, less capital for covered calls, income generation."
+                },
+                risk: "medium",
+                tags: ["capital-efficient", "income", "leverage", "covered-call-alternative"],
+                payoffDiagram: "poor-mans-covered-call-payoff.png", // Placeholder URL - REPLACE THIS
+                whenToUse: "As a capital-efficient alternative to covered calls, for income generation with less capital outlay.",
+                pros: ["Lower capital requirement than covered call", "Leveraged income generation"],
+                cons: ["More complex than covered call", "Requires managing two expirations"],
+                complexity: "intermediate",
+                exampleScenario: "Generating income on a stock you expect to rise moderately, without buying 100 shares.",
+                learnMoreLink: "https://www.example.com/poor-mans-covered-call-strategy" // Placeholder - Replace with actual link
+            },
+            // Adjustments/Management
+            {
+                name: "Rolling Techniques",
+                category: "management",
+                description: "Methods for adjusting existing positions by closing current options and opening new ones to extend duration or change strikes.",
+                details: {
+                    setup: "Close existing options position and simultaneously open a new position with different parameters.",
+                    applications: "Roll out (extend duration), roll up/down (change strikes), roll diagonal (change both).",
+                    benefits: "Manage risk, capture additional premium, extend profitable positions.",
+                    idealFor: "Managing existing positions that are approaching expiration or moving against you."
+                },
+                tags: ["adjustment", "position-management", "risk-control"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/RollingCall.png", // Placeholder URL - REPLACE THIS (Example: Rolling a Call Option)
+                whenToUse: "To manage positions approaching expiration, to adjust to changing market conditions.",
+                pros: ["Extends position duration", "Adjusts strike prices to optimize profit/risk", "Captures more premium"],
+                cons: ["Can increase losses if rolled incorrectly", "Transaction costs with each roll"],
+                complexity: "intermediate",
+                exampleScenario: "Rolling a covered call to a further expiration date to continue generating income.",
+                learnMoreLink: "https://www.example.com/rolling-options-techniques" // Placeholder - Replace with actual link
+            },
+            {
+                name: "Defensive Adjustments",
+                category: "management",
+                description: "Techniques to modify existing positions when market conditions change to reduce risk or salvage profitability.",
+                details: {
+                    setup: "Add or remove option legs to change the risk profile of an existing position.",
+                    applications: "Converting to different strategies, adding hedges, reducing position size.",
+                    benefits: "Limit losses, protect profits, adapt to changing market conditions.",
+                    idealFor: "Responding to unexpected market moves or volatility changes that threaten your position."
+                },
+                risk: "medium",
+                tags: ["risk-management", "position-rescue", "strategy-conversion"],
+                payoffDiagram: "https://www.optionsplaybook.com/images/payoff/DefensiveActions.png", // Placeholder URL - REPLACE THIS (Conceptual - shows risk reduction)
+                whenToUse: "To react to adverse market movements and protect or salvage existing positions.",
+                pros: ["Reduces risk", "Protects profits", "Adapts to changing market conditions"],
+                cons: ["Can reduce potential profit", "May require additional capital or reduce position size"],
+                complexity: "advanced",
+                exampleScenario: "Adding a put option to a covered call when the stock price starts falling rapidly.",
+                learnMoreLink: "https://www.example.com/defensive-option-adjustments" // Placeholder - Replace with actual link
             }
-            // Add more strategies with their diagrams here
         ];
 
         function App() {
             const [expandedStrategy, setExpandedStrategy] = React.useState(null);
             const [searchTerm, setSearchTerm] = React.useState('');
             const [selectedCategory, setSelectedCategory] = React.useState('all');
-            
+            const [showPayoffDiagram, setShowPayoffDiagram] = React.useState(null); // State to control payoff diagram visibility
+
             const filteredStrategies = strategiesData.filter(strategy => {
-                const matchesSearch = strategy.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                                     strategy.description.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesSearch = strategy.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    strategy.description.toLowerCase().includes(searchTerm.toLowerCase());
                 const matchesCategory = selectedCategory === 'all' || strategy.category === selectedCategory;
                 return matchesSearch && matchesCategory;
             });
-            
+
             const handleStrategyClick = (strategyName) => {
                 setExpandedStrategy(expandedStrategy === strategyName ? null : strategyName);
+                setShowPayoffDiagram(null); // Close payoff diagram when strategy content is collapsed/expanded
             };
-            
+
+            const handlePayoffDiagramClick = (strategyName) => {
+                setShowPayoffDiagram(showPayoffDiagram === strategyName ? null : strategyName); // Toggle payoff diagram visibility
+                setExpandedStrategy(strategyName); // Ensure strategy content is expanded when payoff is shown
+            };
+
+
             const categories = [
-                { id: 'all', name: 'All Strategies', className: 'all-strategies' },
+                { id: 'all', name: 'All Strategies', className: 'all-strategies' }, // Added all-strategies class
                 { id: 'bullish', name: 'Bullish', className: 'bullish' },
                 { id: 'bearish', name: 'Bearish', className: 'bearish' },
                 { id: 'neutral', name: 'Neutral', className: 'neutral' },
@@ -251,14 +898,24 @@
                 { id: 'advanced', name: 'Advanced', className: 'advanced' },
                 { id: 'management', name: 'Management', className: 'management' }
             ];
-            
+
+            function getComplexityClassName(complexity) {
+                switch (complexity) {
+                    case 'beginner': return 'complexity-beginner';
+                    case 'intermediate': return 'complexity-intermediate';
+                    case 'advanced': return 'complexity-advanced';
+                    default: return '';
+                }
+            }
+
+
             return (
                 <div>
                     <div className="header">
                         <h1>Options Strategies Explorer</h1>
                         <p>Discover the perfect options strategy for any market condition</p>
                     </div>
-                    
+
                     <div className="search-container">
                         <input
                             type="text"
@@ -268,7 +925,7 @@
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    
+
                     <div className="categories-container">
                         {categories.map(category => (
                             <button
@@ -280,12 +937,12 @@
                             </button>
                         ))}
                     </div>
-                    
+
                     <div className="strategies-container">
                         {filteredStrategies.length > 0 ? (
                             filteredStrategies.map(strategy => (
                                 <div key={strategy.name} className="strategy-card">
-                                    <div 
+                                    <div
                                         className={`strategy-header ${strategy.category}-header`}
                                         onClick={() => handleStrategyClick(strategy.name)}
                                     >
@@ -294,19 +951,118 @@
                                     </div>
                                     <div className={`strategy-content ${expandedStrategy === strategy.name ? 'expanded' : ''}`}>
                                         <p className="strategy-description">{strategy.description}</p>
-                                        
+
                                         <div className="strategy-details">
-                                            {Object.entries(strategy.details).map(([key, value]) => (
-                                                <div key={key} className="detail-item">
-                                                    <div className="detail-title">{key.charAt(0).toUpperCase() + key.slice(1)}:</div>
-                                                    <div>{value}</div>
+                                            {strategy.details.setup && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Setup:</b></div>
+                                                    <div>{strategy.details.setup}</div>
                                                 </div>
+                                            )}
+                                            {strategy.details.maxProfit && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Max Profit:</b></div>
+                                                    <div>{strategy.details.maxProfit}</div>
+                                                </div>
+                                            )}
+                                            {strategy.details.maxLoss && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Max Loss:</b></div>
+                                                    <div>{strategy.details.maxLoss}</div>
+                                                </div>
+                                            )}
+                                            {strategy.details.breakeven && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Breakeven:</b></div>
+                                                    <div>{strategy.details.breakeven}</div>
+                                                </div>
+                                            )}
+                                            {strategy.details.idealFor && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Ideal For:</b></div>
+                                                    <div>{strategy.details.idealFor}</div>
+                                                </div>
+                                            )}
+                                            {strategy.whenToUse && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>When to Use:</b></div>
+                                                    <div>{strategy.whenToUse}</div>
+                                                </div>
+                                            )}
+                                            {strategy.pros && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Pros:</b></div>
+                                                    <div>
+                                                        <ul>
+                                                            {strategy.pros.map((pro, index) => <li key={index}>{pro}</li>)}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {strategy.cons && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Cons:</b></div>
+                                                    <div>
+                                                        <ul>
+                                                            {strategy.cons.map((con, index) => <li key={index}>{con}</li>)}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {strategy.exampleScenario && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Example Scenario:</b></div>
+                                                    <div>{strategy.exampleScenario}</div>
+                                                </div>
+                                            )}
+                                            {strategy.details.applications && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Applications:</b></div>
+                                                    <div>{strategy.details.applications}</div>
+                                                </div>
+                                            )}
+                                            {strategy.details.benefits && (
+                                                <div className="detail-item">
+                                                    <div className="detail-title"><b>Benefits:</b></div>
+                                                    <div>{strategy.details.benefits}</div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <a
+                                            href="#"
+                                            className="payoff-link"
+                                            onClick={(e) => {
+                                                e.preventDefault(); // Prevent default link behavior
+                                                handlePayoffDiagramClick(strategy.name);
+                                            }}
+                                        >
+                                            Payoff Diagram
+                                        </a>
+
+                                        {showPayoffDiagram === strategy.name && strategy.payoffDiagram && (
+                                            <div className="payoff-diagram">
+                                                <img src={strategy.payoffDiagram} alt={`${strategy.name} Payoff Diagram`} className="payoff-diagram-image" />
+                                            </div>
+                                        )}
+
+                                        <div className="tags-container">
+                                            {strategy.tags.map(tag => (
+                                                <span key={tag} className={`tag ${strategy.risk ? `risk-${strategy.risk}` : ''}`}>
+                                                    {tag}
+                                                </span>
                                             ))}
+                                            {strategy.complexity && (
+                                                <span className={`tag ${getComplexityClassName(strategy.complexity)}`}>
+                                                    {strategy.complexity.charAt(0).toUpperCase() + strategy.complexity.slice(1)} {/* Capitalize first letter */}
+                                                </span>
+                                            )}
                                         </div>
-                                        
-                                        <div className="payoff-diagram">
-                                            <img src={strategy.diagram} alt={`${strategy.name} Payoff Diagram`} />
-                                        </div>
+                                        {strategy.learnMoreLink && (
+                                            <div className="learn-more-link">
+                                                <a href={strategy.learnMoreLink} target="_blank" rel="noopener noreferrer">Learn More</a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))
