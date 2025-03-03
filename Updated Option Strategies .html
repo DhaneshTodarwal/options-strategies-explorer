@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Strategies Explorer</title>
+    <!-- React and ReactDOM CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        :root {
+            --bullish-color: #4caf50;
+            --bearish-color: #f44336;
+            --neutral-color: #2196f3;
+            --volatility-color: #ff9800;
+            --advanced-color: #9c27b0;
+            --management-color: #607d8b;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --all-strategies-color: #d3d3d3; /* Light gray for "All Strategies" button */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+        
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        
+        .categories-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .all-strategies {
+            background-color: var(--all-strategies-color);
+            color: black; /* Ensure text is visible */
+        }
+        
+        .bullish { background-color: var(--bullish-color); }
+        .bearish { background-color: var(--bearish-color); }
+        .neutral { background-color: var(--neutral-color); }
+        .volatility { background-color: var(--volatility-color); }
+        .advanced { background-color: var(--advanced-color); }
+        .management { background-color: var(--management-color); }
+        
+        .strategies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .strategy-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .strategy-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid;
+        }
+        
+        .bullish-header { border-left-color: var(--bullish-color); }
+        .bearish-header { border-left-color: var(--bearish-color); }
+        .neutral-header { border-left-color: var(--neutral-color); }
+        .volatility-header { border-left-color: var(--volatility-color); }
+        .advanced-header { border-left-color: var(--advanced-color); }
+        .management-header { border-left-color: var(--management-color); }
+        
+        .strategy-title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .strategy-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+        }
+        
+        .strategy-content.expanded {
+            max-height: 1000px;
+            padding: 20px;
+        }
+        
+        .strategy-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .strategy-details {
+            background-color: rgba(0, 0, 0, 0.04);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        
+        .detail-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .payoff-diagram {
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .payoff-diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script type="text/babel">
+        const strategiesData = [
+            {
+                name: "Long Call",
+                category: "bullish",
+                description: "A simple directional bet on upside, giving the holder the right to buy the underlying asset at the strike price before expiration.",
+                details: {
+                    setup: "Buy a call option at a specific strike price and expiration date.",
+                    maxProfit: "Unlimited as stock price rises above strike plus premium paid.",
+                    maxLoss: "Limited to the premium paid for the option.",
+                    breakeven: "Strike price plus premium paid.",
+                    idealFor: "Strong bullish outlook with expectation of significant upward movement."
+                },
+                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-long-call.png"
+            },
+            {
+                name: "Bull Call Spread",
+                category: "bullish",
+                description: "A vertical spread strategy created by buying a call option while simultaneously selling another call option with a higher strike price.",
+                details: {
+                    setup: "Buy a lower strike call and sell a higher strike call with the same expiration.",
+                    maxProfit: "Difference between strike prices minus net premium paid.",
+                    maxLoss: "Limited to the net premium paid for the spread.",
+                    breakeven: "Lower strike price plus net premium paid.",
+                    idealFor: "Moderate bullish outlook with reduced cost compared to long call."
+                },
+                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-bull-call-spread.png"
+            },
+            {
+                name: "Long Put",
+                category: "bearish",
+                description: "A bearish strategy that gives the holder the right to sell the underlying asset at the strike price before expiration.",
+                details: {
+                    setup: "Buy a put option at a specific strike price and expiration date.",
+                    maxProfit: "Substantial, limited by the stock price dropping to zero.",
+                    maxLoss: "Limited to the premium paid for the option.",
+                    breakeven: "Strike price minus premium paid.",
+                    idealFor: "Strong bearish outlook expecting a significant price drop."
+                },
+                diagram: "https://www.optionsplaybook.com/uploads/options_basics/payoff-long-put.png"
+            }
+            // Add more strategies with their diagrams here
+        ];
+
+        function App() {
+            const [expandedStrategy, setExpandedStrategy] = React.useState(null);
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [selectedCategory, setSelectedCategory] = React.useState('all');
+            
+            const filteredStrategies = strategiesData.filter(strategy => {
+                const matchesSearch = strategy.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                                     strategy.description.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesCategory = selectedCategory === 'all' || strategy.category === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+            
+            const handleStrategyClick = (strategyName) => {
+                setExpandedStrategy(expandedStrategy === strategyName ? null : strategyName);
+            };
+            
+            const categories = [
+                { id: 'all', name: 'All Strategies', className: 'all-strategies' },
+                { id: 'bullish', name: 'Bullish', className: 'bullish' },
+                { id: 'bearish', name: 'Bearish', className: 'bearish' },
+                { id: 'neutral', name: 'Neutral', className: 'neutral' },
+                { id: 'volatility', name: 'Volatility', className: 'volatility' },
+                { id: 'advanced', name: 'Advanced', className: 'advanced' },
+                { id: 'management', name: 'Management', className: 'management' }
+            ];
+            
+            return (
+                <div>
+                    <div className="header">
+                        <h1>Options Strategies Explorer</h1>
+                        <p>Discover the perfect options strategy for any market condition</p>
+                    </div>
+                    
+                    <div className="search-container">
+                        <input
+                            type="text"
+                            placeholder="Search strategies by name or description..."
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    
+                    <div className="categories-container">
+                        {categories.map(category => (
+                            <button
+                                key={category.id}
+                                className={`category-btn ${category.className} ${selectedCategory === category.id ? 'active' : ''}`}
+                                onClick={() => setSelectedCategory(category.id)}
+                            >
+                                {category.name}
+                            </button>
+                        ))}
+                    </div>
+                    
+                    <div className="strategies-container">
+                        {filteredStrategies.length > 0 ? (
+                            filteredStrategies.map(strategy => (
+                                <div key={strategy.name} className="strategy-card">
+                                    <div 
+                                        className={`strategy-header ${strategy.category}-header`}
+                                        onClick={() => handleStrategyClick(strategy.name)}
+                                    >
+                                        <div className="strategy-title">{strategy.name}</div>
+                                        <div>{expandedStrategy === strategy.name ? '−' : '+'}</div>
+                                    </div>
+                                    <div className={`strategy-content ${expandedStrategy === strategy.name ? 'expanded' : ''}`}>
+                                        <p className="strategy-description">{strategy.description}</p>
+                                        
+                                        <div className="strategy-details">
+                                            {Object.entries(strategy.details).map(([key, value]) => (
+                                                <div key={key} className="detail-item">
+                                                    <div className="detail-title">{key.charAt(0).toUpperCase() + key.slice(1)}:</div>
+                                                    <div>{value}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        
+                                        <div className="payoff-diagram">
+                                            <img src={strategy.diagram} alt={`${strategy.name} Payoff Diagram`} />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="no-results">
+                                No strategies found. Try adjusting your search or category selection.
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('app'));
+    </script>
+</body>
+</html>
